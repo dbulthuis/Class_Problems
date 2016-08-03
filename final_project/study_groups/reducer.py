@@ -3,39 +3,23 @@
 import sys
 
 oldKey = None
-totalsDict = {}
-totalForKey = 0
+studentList = []
 
 for line in sys.stdin:
     data_mapped = line.strip().split("\t")
-    if len(data_mapped) != 3:
+    if len(data_mapped) != 2:
         # Something has gone wrong. Skip this line.
         continue
 
-    thisKey, thisType, thisLength = data_mapped
+    thisKey, thisStudent = data_mapped
 
     if oldKey and oldKey != thisKey:
-        output = oldKey + "\t" + str(totalsDict['question']) + "\t"
-        if 'answer' not in totalsDict:
-            output += "0"
-        else :
-            output += str(totalsDict['answer']/(totalForKey-1))
-        print output
+        print oldKey,'\t',studentList
         oldKey = thisKey;
-        totalForKey = 0
-        totalsDict = {}
+        studentList = []
 
     oldKey = thisKey
-    if thisType in totalsDict:
-        totalsDict[thisType] += float(thisLength)
-    else :
-        totalsDict[thisType] = float(thisLength)
-    totalForKey += 1
+    studentList.append(int(thisStudent))
 
 if oldKey:
-    output = oldKey + "\t" + str(totalsDict['question']) + "\t"
-    if 'answer' not in totalsDict:
-        output += "0"
-    else:
-        output += str(totalsDict['answer'] / (totalForKey - 1))
-    print output
+    print oldKey, '\t', studentList
