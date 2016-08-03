@@ -14,6 +14,6 @@ reader = csv.reader(sys.stdin, delimiter='\t')
 for data in reader:
     if len(data) >= 9:
         if data[5] == 'answer':
-            print "{0}\t{1}\t{2}".format(data[6], data[5], len(data[4]))
+            print "{0}\t{1}".format(data[6], data[3])
         else :
-            print "{0}\t{1}\t{2}".format(data[0], data[5], len(data[4]))
+            print "{0}\t{1}".format(data[0], data[3])
