@@ -34,19 +34,29 @@ The mapper key for both types of records is the student ID:
 Remember that during the sort and shuffle phases records will be grouped based on the student ID (12345 in our example).
 You can use that to process and join the records appropriately in the reduce phase.
 """
-
 import sys
 import csv
-import re
-
-regex = re.compile('([^ ]*) ([^ ]*) ([^ ]*) \[([^]]*)\] "([^"]*)" ([^ ]*) ([^ ]*)' )
-
 
 def mapper():
-    reader = csv.reader(sys.stdin, delimiter='\t')
+    reader = csv.reader(sys.stdin, dialect='excel', delimiter='\t')
     writer = csv.writer(sys.stdout, delimiter='\t', quotechar='"', quoting=csv.QUOTE_ALL)
 
     for line in reader:
-        # YOUR CODE HERE
+
+        if len(line) == 19:
+            nodeid, title, tagnames, author_id, body, node_type, parent_id, abs_parent_id, added_at, score, state_string, last_edited_id, last_activity_by_id, last_activity_at, active_revision_id, extra, extra_ref_id, extra_count, marked = line
+            if nodeid=="id":
+                continue
+            else:
+                line = [author_id,"B",nodeid,title,author_id,tagnames,node_type,parent_id,abs_parent_id,added_at,score]
+
+        if len(line)==5:
+            user_ptr_id,reputation,gold,silver,bronze = line
+            if user_ptr_id=="user_ptr_id":
+                continue
+            else:
+                 line = [user_ptr_id,"A",reputation,gold,silver,bronze]
 
         writer.writerow(line)
+
+mapper()
