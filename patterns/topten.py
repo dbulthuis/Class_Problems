@@ -5,14 +5,12 @@ import csv
 def mapper():
     reader = csv.reader(sys.stdin, delimiter='\t')
     writer = csv.writer(sys.stdout, delimiter='\t', quotechar='"', quoting=csv.QUOTE_ALL)
-    sorted_dict = {}
-
+    res = []
     for line in reader:
-        sorted_dict[len(line[4])] = line
-
-    top_ten = sorted(sorted_dict.keys(),reverse=True)
-    for x in range(10):
-        writer.writerow(sorted_dict[top_ten[9-x]])
+        res.append([len(line[4]), line])
+    res = sorted(res, reverse=True)
+    for i in range(10):
+        writer.writerow(res[9-i][1])
 
 
 test_text = """\"\"\t\"\"\t\"\"\t\"\"\t\"333\"\t\"\"
